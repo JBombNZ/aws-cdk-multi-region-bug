@@ -1,14 +1,14 @@
-# Welcome to your CDK TypeScript project
+# Multi Region Bug
 
-This is a blank project for CDK development with TypeScript.
+## Steps to replicate
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+1. `npm install`
+2. Bootstrap multiple regions: `cdk bootstrap aws://$accountId/ap-southeast-2 aws://$accountId/us-west-1 aws://$accountId/us-east-1`
+3. `cdk deploy --all` to deploy
+4. Observe error
 
-## Useful commands
-
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `cdk deploy`      deploy this stack to your default AWS account/region
-* `cdk diff`        compare deployed stack with current state
-* `cdk synth`       emits the synthesized CloudFormation template
+```
+Received response status [FAILED] from custom resource. Message returned: AccessDeniedException: User: arn:aws:sts::$accountId:assumed-role/DNSStack-CustomCrossRegionExportWriterCustomResour-1TVU17T3ISUAH/DNSS
+tack-CustomCrossRegionExportWriterCustomResour-XVqkhaL6MfRN is not authorized to perform: ssm:ListTagsForResource on resource: arn:aws:ssm:ap-southeast-2:705690605585:parameter/cdk/exports/ap-southeast-2-Compute
+Stack/DNSStackuseast1RefHostedZoneDB99F8669F50CE3B because no identity-based policy allows the ssm:ListTagsForResource action
+```
